@@ -305,11 +305,20 @@ class CalendarContainer extends Component<Container.CalendarContainerProps, Cale
     }
 
     private onClickSlot = (slotInfo: Container.EventInfo) => {
+        let start: Date;
+        let end: Date;
+        if (slotInfo.start == slotInfo.end) {
+            start = dateMath.startOf(slotInfo.start, "day");
+            end = dateMath.endOf(slotInfo.end, "day");
+        } else {
+            start = slotInfo.start;
+            end = slotInfo.end;
+        }
         mx.data.create({
             entity: this.props.eventEntity,
             callback: (newEvent) => {
-                newEvent.set(this.props.startAttribute, dateMath.startOf(slotInfo.start, "day"));
-                newEvent.set(this.props.endAttribute, dateMath.endOf(slotInfo.end, "day"));
+                newEvent.set(this.props.startAttribute, start);
+                newEvent.set(this.props.endAttribute, end);
                 if (this.props.mxObject && this.props.newEventContextPath && this.props.newEventContextPath.split("/")[1] === this.props.mxObject.getEntity()) {
                     newEvent.set(this.props.newEventContextPath.split("/")[0], this.props.mxObject.getGuid());
                 } else {

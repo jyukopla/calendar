@@ -191,13 +191,13 @@ class Calendar extends Component<CalendarProps> {
     }
 
     private onEventDrop = (eventInfo: Container.EventInfo) => {
-        if (eventInfo.start.getDate() !== eventInfo.event.start.getDate() && this.props.editable === "default" && this.props.onEventDropAction) {
+        if ((eventInfo.start !== eventInfo.event.start || eventInfo.end !== eventInfo.event.end) && this.props.editable && this.props.onEventDropAction) {
             this.props.onEventDropAction(eventInfo);
         }
     }
 
-    private onEventResize = (_resizeType: string, eventInfo: Container.EventInfo) => {
-        if (eventInfo.end.getDate() !== eventInfo.event.end.getDate() && this.props.editable && this.props.onEventResizeAction) {
+    private onEventResize = (eventInfo: Container.EventInfo) => {
+        if ((eventInfo.start !== eventInfo.event.start || eventInfo.end !== eventInfo.event.end) && this.props.editable && this.props.onEventResizeAction) {
             this.props.onEventResizeAction(eventInfo);
         }
     }
